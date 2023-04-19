@@ -1,0 +1,29 @@
+.select-states{
+    position: relative;
+}
+.select{
+    border: solid 1px grey;
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 20px 7px 20px;
+    background-color: #f2f2f2;
+}
+.select-value{
+    top: 0;
+    visibility: hidden;
+    position: absolute;
+    
+}
+.list-box{
+    border: solid 1px grey;
+    height: auto;
+    max-height: 250px ;
+    overflow-y: auto;
+    .items{
+        padding: 5px;
+    }
+    .items:hover{
+        background-color: #007fff;
+        color: #fff;
+    }
+}

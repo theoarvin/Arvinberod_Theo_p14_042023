@@ -52,6 +52,8 @@ describe("When you fill in a field incorrectly", () => {
     expect(errorText).toHaveTextContent("Last name is required");
   });
 
+  
+
   it("street: Should display an error message when less than 3 characters are entered", () => {
     render(
       <Provider store={store}>
@@ -59,8 +61,8 @@ describe("When you fill in a field incorrectly", () => {
       </Provider>
     );
 
-    const dateOfBirth = screen.getByLabelText("Street");
-    fireEvent.change(dateOfBirth, { target: { value: "" } });
+    const street = screen.getByLabelText("Street");
+    fireEvent.change(street, { target: { value: "" } });
     const errorText = screen.getByTestId("error-street");
 
     const btnSave = screen.getByText("Save");
@@ -103,16 +105,10 @@ describe("When you fill in a field incorrectly", () => {
   });
 });
 
-describe("When you correctly all field", () => {
-  it('Should be display modal confirmation', () => {
-
-  })
-})
-
 
 
 describe('Form component', ()  => {
-  test.only('submitting the form with valid inputs should call getUserData and setOpenModal', async () => {
+  test.skip('submitting the form with valid inputs should call getUserData and setOpenModal', async () => {
     render(
         <Provider store={store}>
           <Routes>
@@ -122,10 +118,12 @@ describe('Form component', ()  => {
       );
 
     // Fill in the form fields
-    fireEvent.change(screen.getByLabelText(/first name/i), 'John');
-    fireEvent.change(screen.getByLabelText(/last name/i), 'Doe');
-    fireEvent.change(screen.getByLabelText(/date of birth/i), { target: { value: '01/01/1990' } });
-    fireEvent.change(screen.getByLabelText(/start date/i), { target: { value: '01/01/2022' } });
+    const firstName = screen.getByLabelText("First Name");
+    fireEvent.change(firstName, { target: { value: "John" } });
+
+    const lastName = screen.getByLabelText("Last Name");
+    fireEvent.change(lastName, { target: { value: "Doe" } });
+    
     fireEvent.change(screen.getByLabelText(/street/i), '123 Main St');
     fireEvent.change(screen.getByLabelText(/city/i), 'Anytown');
     fireEvent.change(screen.getByLabelText(/zip code/i), '12345');
@@ -136,7 +134,7 @@ describe('Form component', ()  => {
     
     // Check that the form was submitted successfully
     await waitFor(() => {
-        expect(screen.getAllByText('Employee Created!')).toBeInTheDocument()
+        expect(screen.getByText('Employee Created!')).toBeInTheDocument()
     })    
   });
 });

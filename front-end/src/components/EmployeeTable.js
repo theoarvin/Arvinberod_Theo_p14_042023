@@ -1,22 +1,28 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState, lazy } from "react";
 import { useSelector } from "react-redux";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
 function EmployeeTable() {
-  const PAGE_SIZE = 1;
-  const [gridApi, setGridApi] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [show, setShow] = useState(10);
-  //const gridRef = useRef();
   const data = useSelector((state) => state?.user?.userData);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const columnDefs = [
     { headerName: "First Name", field: "firstName", sortable: true, flex: 1 },
     { headerName: "Last Name", field: "lastName", sortable: true, flex: 1 },
-    { headerName: "Start Date", field: "date", sortable: true, flex: 1 },
+    {
+      headerName: "Start Date",
+      field: "date",
+      sortable: true,
+      flex: 1,
+      valueFormatter: (params) => {
+        const date = new Date(params.value);
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return date.toLocaleDateString("fr-FR", options);
+      },
+    },
     {
       headerName: "Department",
       field: "department",
@@ -28,6 +34,11 @@ function EmployeeTable() {
       field: "dateOfBirth",
       sortable: true,
       flex: 1,
+      valueFormatter: (params) => {
+        const date = new Date(params.value);
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return date.toLocaleDateString("fr-FR", options);
+      },
     },
     { headerName: "Street", field: "street", sortable: true, flex: 1 },
     { headerName: "City", field: "city", sortable: true, flex: 1 },
@@ -48,62 +59,34 @@ function EmployeeTable() {
     );
   }, [data, searchText]);
 
-  const onGridReady = (params) => {
-    setGridApi(params.api);
-  };
-
-  const onHeaderClicked = (event, filterValue) => {
-    const colId = event.column.getId();
-    const filter = gridApi.getFilterInstance(colId);
-
-    if (filter) {
-      filter.setModel({
-        type: "contains",
-        filter: filterValue,
-      });
-      gridApi.onFilterChanged();
-    } else {
-      gridApi.setFilterModel({
-        [colId]: {
-          type: "contains",
-          filter: filterValue,
-        },
-      });
-      gridApi.onFilterChanged();
-    }
-  };
-
-  const totalPageCount = useMemo(() => {
-    return Math.ceil(filteredData.length / PAGE_SIZE);
-  }, [filteredData]);
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
   return (
     <>
       <div className="block-input">
-        <label htmlFor="search"></label>
-        <input
-          name="search"
-          type="search"
-          placeholder="Rechercher"
-          value={searchText}
-          onChange={handleSearchTextChange}
-          aria-label="search user"
-        />
-        <label htmlFor="select"></label>
-        <select
-          name="select"
-          aria-label="change number filtre "
-          onChange={(e) => setShow(e.target.value)}
-        >
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
+        <div className="filtre">
+          <label htmlFor="search-field">Rechercher :</label>
+          <input
+            type="search"
+            id="search-field"
+            name="search"
+            value={searchText}
+            onChange={handleSearchTextChange}
+            aria-label="Rechercher les utilisateurs"
+          />
+        </div>
+        <div className="filtre">
+          <label htmlFor="select-field">Nombre de résultats à afficher :</label>
+          <select
+            id="select-field"
+            name="select"
+            aria-label="Changer le nombre de résultats à afficher"
+            onChange={(e) => setShow(e.target.value)}
+          >
+            <option value="1">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
       </div>
 
       <div
@@ -115,25 +98,12 @@ function EmployeeTable() {
           style={{ height: "400px", width: "100%" }}
         >
           <AgGridReact
-            onGridReady={onGridReady}
             columnDefs={columnDefs}
             rowData={filteredData}
-            onHeaderClicked={(event) =>
-              onHeaderClicked(event, "valeur de filtre")
-            }
             enableSorting={true}
             pagination={true}
             paginationPageSize={show}
           />
-          <div className="pagination">
-            {Array.from({ length: totalPageCount }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                className={currentPage === index + 1 ? "active" : ""}
-              ></button>
-            ))}
-          </div>
         </div>
       </div>
     </>

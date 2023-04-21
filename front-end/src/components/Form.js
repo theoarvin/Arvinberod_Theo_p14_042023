@@ -57,6 +57,7 @@ function Form({ setOpenModal }) {
       setOpenModal(true);
     }
   };
+
   return (
     <form
       data-testid="submit-form"
@@ -65,6 +66,7 @@ function Form({ setOpenModal }) {
     >
       <div className="form-infos">
         <div className="form-name">
+          <div>
           <label htmlFor="first-name">First Name</label>
           <input
             type="text"
@@ -82,7 +84,8 @@ function Form({ setOpenModal }) {
           >
             {errors.firstName}
           </div>
-
+          </div>
+          <div>
           <label htmlFor="last-name">Last Name</label>
           <input
             type="text"
@@ -99,17 +102,23 @@ function Form({ setOpenModal }) {
           >
             {errors.lastName}
           </div>
+          </div>
+          
+
+          
         </div>
         <div className="form-date">
+          <div>
           <label htmlFor="date-of-birth">Date of Birth</label>
           <DatePickerComponent
             idForLabel={"date-of-birth"}
             setSelectDate={setSelectDateBirth}
           />
-          <div className="error" style={{ color: "red" }}>
+          <div data-testid="error-dateOfBirth" className="error" style={{ color: "red" }}>
             {errors.selectedDateBirth}
           </div>
-
+          </div>
+          <div>
           <label htmlFor="start-date">Start Date</label>
           <DatePickerComponent
             idForLabel={"start-date"}
@@ -118,6 +127,9 @@ function Form({ setOpenModal }) {
           <div className="error" style={{ color: "red" }}>
             {errors.selectDate}
           </div>
+          </div>
+
+          
         </div>
       </div>
 

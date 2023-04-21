@@ -6,11 +6,15 @@ function DatePickerComponent({ idForLabel, setSelectDate }) {
   const [date, setDate] = useState(null);
   
   const formatDate = (date) => {
-    const newDate = new Date(date).toLocaleDateString("fr-FR", {
+   /* const newDate = new Date(date).toLocaleDateString("fr-FR", {
       year: "numeric",
-      month: "long",
+      month: "numeric",
       day: "numeric",
     });
+    */
+    
+    const newDate = Date.parse(date);
+    console.log(newDate);
     setSelectDate(newDate);
   }
 

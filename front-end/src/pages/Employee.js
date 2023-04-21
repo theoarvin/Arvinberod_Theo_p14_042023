@@ -1,8 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import EmployeeTable from "../components/EmployeeTable";
+import React, {lazy, Suspense} from "react";
 import Header from "../components/Header";
 
+const EmployeeTable = lazy(() => import("../components/EmployeeTable"));
 
 function Employee() {
   
@@ -10,7 +9,9 @@ function Employee() {
     <>
       <Header />
       <h1>Current Employees</h1>
-      <EmployeeTable />
+      <Suspense fallback={<div>Loading...</div>}>
+        <EmployeeTable />
+      </Suspense>
     </>
   );
 }

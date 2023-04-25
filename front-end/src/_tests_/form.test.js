@@ -108,7 +108,7 @@ describe("When you fill in a field incorrectly", () => {
 
 
 describe('Form component', ()  => {
-  test.skip('submitting the form with valid inputs should call getUserData and setOpenModal', async () => {
+  /*test.skip('submitting the form with valid inputs should call getUserData and setOpenModal', async () => {
     render(
         <Provider store={store}>
           <Routes>
@@ -136,8 +136,7 @@ describe('Form component', ()  => {
     await waitFor(() => {
         expect(screen.getByText('Employee Created!')).toBeInTheDocument()
     })    
-  });
+  });*/
 });
-
 
 

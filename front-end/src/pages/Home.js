@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import Header from "../components/Header";
-import Modal from "../components/Modal"
+//import Modal from "../components/Modal"
 import { Link } from "react-router-dom";
 import Form from "../components/Form";
-//import { Modal } from "modal-theoab"
+import { Modal } from "modal-theoab"
 
 function Home() {
   const [openModal, setOpenModal] = useState(false)

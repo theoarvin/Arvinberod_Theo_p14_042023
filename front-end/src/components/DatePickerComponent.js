@@ -6,13 +6,6 @@ function DatePickerComponent({ idForLabel, setSelectDate }) {
   const [date, setDate] = useState(null);
   
   const formatDate = (date) => {
-   /* const newDate = new Date(date).toLocaleDateString("fr-FR", {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-    });
-    */
-    
     const newDate = Date.parse(date);
     console.log(newDate);
     setSelectDate(newDate);
@@ -31,7 +24,8 @@ function DatePickerComponent({ idForLabel, setSelectDate }) {
         yearDropdownItemNumber={115}
         scrollableYearDropdown={true}
         minDate={new Date("01/01/1902")}
-        //maxDate={new Date()}
+        maxDate={new Date()}
+        strictParsing={true}
         id={idForLabel}
       />
     </div>

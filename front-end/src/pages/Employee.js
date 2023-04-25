@@ -9,7 +9,7 @@ function Employee() {
     <>
       <Header />
       <h1>Current Employees</h1>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div></div>}>
         <EmployeeTable />
       </Suspense>
     </>
